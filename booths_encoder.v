@@ -1,20 +1,14 @@
 module booths_encoder(	
   input signed [15:0] A,
   input signed [15:0] B,
-  output reg signed [31:0] product);
+  output reg signed [33:0] pp0, pp1, pp2, pp3, pp4, pp5);
 
   reg [18:0] Q;  
   integer i;
   reg [3:0] booth_comb;
-  reg signed [33:0] pp0, pp1, pp2, pp3, pp4, pp5;
   reg signed [16:0] A_x_1, A_x2;
   reg signed [17:0] A_x4, A_x3, A_x_3, A_x_2;
   reg signed [18:0] A_x_4, pp;
-  
-  /*initial begin
-    A = 16'd32767;
-    B = -16'd32768;
-  end*/
   
   always @(*) begin
       A_x_1 = ~A + 1;
@@ -44,7 +38,6 @@ module booths_encoder(
         4'b1101, 4'b1110: pp = {{2{A_x_1[16]}}, A_x_1};
 	  endcase
           
-      
       //all pp will be of 34 bits to accomodate overflow
       case (i)
         0: pp0 = { {15{pp[18]}}, pp[18:0] };
@@ -56,13 +49,7 @@ module booths_encoder(
       endcase
    end
    
-   product = pp0 + pp1 + pp2 + pp3 + pp4 + pp5;
-   /*$display("Final sum: %b", product);
-   $display("Final sum: %d", product);
-   $finish;*/
  end
   
   	
 endmodule
-
-
